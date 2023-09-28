@@ -22,8 +22,8 @@ class _MyRegisterPageState extends State<MyRegisterPage> {
   final pass = TextEditingController();
   void _register() async {
     if (_formKey.currentState!.validate()) {
-      final res =
-          await http.post(Uri.parse("http://localhost:5500/api/auth/register"),
+      await http
+          .post(Uri.parse("http://localhost:5500/api/auth/register"),
               headers: <String, String>{
                 'Content-Type': 'application/json; charset=UTF-8',
               },
@@ -33,17 +33,27 @@ class _MyRegisterPageState extends State<MyRegisterPage> {
                 'address': address.text,
                 'contact': contact.text,
                 'password': pass.text
-              }));
-      if (res.statusCode == 200) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Registered')),
-        );
-        context.go("/");
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Error Registering')),
-        );
-      }
+              }))
+          .then((res) => {
+                if (res.statusCode == 200)
+                  {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Registered')),
+                    ),
+                    context.go("/")
+                  }
+                else
+                  {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Error Registering')),
+                    )
+                  }
+              })
+          .onError((error, stackTrace) => {
+                // ScaffoldMessenger.of(context).showSnackBar(
+                //   const SnackBar(content: Text('Error Registering')),
+                // )
+              });
     }
     // context.go("/");
   }
@@ -221,6 +231,20 @@ class _MyRegisterPageState extends State<MyRegisterPage> {
                   tooltip: 'Register',
                   child: const Icon(Icons.app_registration),
                 ),
+                Padding(
+                    padding: const EdgeInsets.only(top: 20.0, bottom: 10.0),
+                    child: TextButton(
+                      onPressed: () {
+                        context.go("/");
+                      },
+                      style: ButtonStyle(
+                        foregroundColor:
+                            MaterialStateColor.resolveWith((states) {
+                          return Colors.teal;
+                        }),
+                      ),
+                      child: const Text("Go Back"),
+                    )),
               ],
             )),
       ),
