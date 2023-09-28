@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
+import 'package:localstorage/localstorage.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -13,14 +13,12 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
-  final storage = const FlutterSecureStorage();
+  final storage = LocalStorage("secure_storage");
 
   void _incrementCounter() async {
     setState(() {
       _counter++;
     });
-    print(await storage.read(key: "token"));
-
   }
 
   @override
