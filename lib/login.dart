@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class MyLoginPage extends StatefulWidget {
   const MyLoginPage({Key? key, required this.title}) : super(key: key);
@@ -17,26 +18,34 @@ class _MyLoginPageState extends State<MyLoginPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final username = TextEditingController();
   final pass = TextEditingController();
+  final storage = const FlutterSecureStorage();
   void _login() async {
     if (_formKey.currentState!.validate()) {
-      final res = await http.post(Uri.parse("http://localhost:5500/api/auth/login"),
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
-          },
-          body: jsonEncode(<String, String>{
-            'username': username.text,
-            'password': pass.text
-          }));
-      if (res.statusCode == 200) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Logged in')),
-        );
-        context.go("/home");
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Error Logging in')),
-        );
-      }
+      await http
+          .post(Uri.parse("http://localhost:5500/api/auth/login"),
+              headers: <String, String>{
+                'Content-Type': 'application/json; charset=UTF-8',
+              },
+              body: jsonEncode(<String, String>{
+                'username': username.text,
+                'password': pass.text
+              }))
+          .then((res) => {
+                if (res.statusCode == 200)
+                  {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Logged in')),
+                    ),
+                    storage.write(key: 'token', value: jsonDecode(res.body)["token"]),
+                    context.go("/home")
+                  }
+                else
+                  {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Error Logging in')),
+                    )
+                  }
+              });
     }
   }
 
