@@ -18,6 +18,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final username = TextEditingController();
   final pass = TextEditingController();
+  bool hide = true;
   final storage = LocalStorage("secure_storage");
   void _login() async {
     if (_formKey.currentState!.validate()) {
@@ -47,6 +48,12 @@ class _MyLoginPageState extends State<MyLoginPage> {
     }
   }
 
+  void hidePass() {
+    setState(() {
+      hide = !hide;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,7 +71,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
                 Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: SizedBox(
-                      width: 200,
+                      width: 250,
                       child: TextFormField(
                         decoration: const InputDecoration(
                           hintText: "Username",
@@ -85,27 +92,36 @@ class _MyLoginPageState extends State<MyLoginPage> {
                 ),
                 Padding(
                     padding: const EdgeInsets.all(20.0),
-                    child: SizedBox(
-                        // height: 100,
-                        width: 200,
-                        child: TextFormField(
-                          decoration: const InputDecoration(
-                            hintText: "Password",
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            // height: 100,
+                            width: 200,
+                            child: TextFormField(
+                              decoration: const InputDecoration(
+                                hintText: "Password",
+                              ),
+                              obscureText: hide,
+                              controller: pass,
+                              style:
+                                  MaterialStateTextStyle.resolveWith((states) {
+                                return const TextStyle(
+                                  color: Colors.black,
+                                );
+                              }),
+                              validator: (String? value) {
+                                if (value == null || value.isEmpty) {
+                                  return "Please enter a password";
+                                }
+                                return null;
+                              },
+                            ),
                           ),
-                          obscureText: true,
-                          controller: pass,
-                          style: MaterialStateTextStyle.resolveWith((states) {
-                            return const TextStyle(
-                              color: Colors.black,
-                            );
-                          }),
-                          validator: (String? value) {
-                            if (value == null || value.isEmpty) {
-                              return "Please enter a password";
-                            }
-                            return null;
-                          },
-                        ))),
+                          const SizedBox(width: 10.0),
+                          IconButton(onPressed: hidePass, icon: const Icon(Icons.key))
+                        ])),
                 FloatingActionButton(
                   onPressed: _login,
                   tooltip: 'Login',
