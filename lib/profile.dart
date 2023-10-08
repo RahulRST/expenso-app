@@ -30,9 +30,7 @@ class Profile {
 }
 
 class MyProfilePage extends StatefulWidget {
-  const MyProfilePage({super.key, required this.title});
-
-  final String title;
+  const MyProfilePage({super.key});
 
   @override
   State<MyProfilePage> createState() => _MyProfilePageState();

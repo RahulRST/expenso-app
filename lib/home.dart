@@ -35,7 +35,7 @@ class _MyHomePageState extends State<MyHomePage> {
             children: [
               Icon(Icons.directions_car),
               Icon(Icons.directions_transit),
-              MyProfilePage(title: "Profile")
+              MyProfilePage()
             ],
           ),
         ),
