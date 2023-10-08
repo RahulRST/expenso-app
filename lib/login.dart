@@ -33,10 +33,8 @@ class _MyLoginPageState extends State<MyLoginPage> {
           .then((res) async => {
                 if (res.statusCode == 200)
                   {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Logged in')),
-                    ),
-                    await storage.setItem('token',jsonDecode(res.body)["token"]),
+                    await storage.setItem(
+                        'token', jsonDecode(res.body)["token"]),
                     context.go("/home")
                   }
                 else
@@ -94,6 +92,7 @@ class _MyLoginPageState extends State<MyLoginPage> {
                           decoration: const InputDecoration(
                             hintText: "Password",
                           ),
+                          obscureText: true,
                           controller: pass,
                           style: MaterialStateTextStyle.resolveWith((states) {
                             return const TextStyle(

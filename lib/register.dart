@@ -187,6 +187,7 @@ class _MyRegisterPageState extends State<MyRegisterPage> {
                                 decoration: const InputDecoration(
                                   hintText: "Password",
                                 ),
+                                obscureText: true,
                                 controller: pass,
                                 style: MaterialStateTextStyle.resolveWith(
                                     (states) {
@@ -210,6 +211,7 @@ class _MyRegisterPageState extends State<MyRegisterPage> {
                                 decoration: const InputDecoration(
                                   hintText: "Confirm Password",
                                 ),
+                                obscureText: true,
                                 style: MaterialStateTextStyle.resolveWith(
                                     (states) {
                                   return const TextStyle(

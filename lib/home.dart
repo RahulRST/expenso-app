@@ -21,20 +21,20 @@ class _MyHomePageState extends State<MyHomePage> {
         length: 3,
         child: Scaffold(
           appBar: AppBar(
-           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          title: Text(widget.title),
+            backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+            title: Text(widget.title),
             bottom: const TabBar(
               tabs: [
-                Tab(icon: Icon(Icons.directions_car)),
-                Tab(icon: Icon(Icons.directions_transit)),
+                Tab(icon: Icon(Icons.home)),
+                Tab(icon: Icon(Icons.notifications)),
                 Tab(icon: Icon(Icons.person)),
               ],
             ),
           ),
           body: const TabBarView(
             children: [
-              Icon(Icons.directions_car),
-              Icon(Icons.directions_transit),
+              Icon(Icons.home),
+              Icon(Icons.notifications),
               MyProfilePage()
             ],
           ),
