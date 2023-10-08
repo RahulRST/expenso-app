@@ -9,10 +9,10 @@ import 'package:http/http.dart' as http;
 final storage = LocalStorage("secure_storage");
 
 Future fetchUser() async {
-  final res = await http
-      .get(Uri.parse('http://localhost:5500/api/user'), headers: <String, String>{
+  final res = await http.get(Uri.parse('http://localhost:5500/api/user'),
+      headers: <String, String>{
         'Authorization': 'Bearer ${storage.getItem('token')}'
-        });
+      });
   return jsonDecode(res.body)["data"];
 }
 
@@ -49,52 +49,72 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: FutureBuilder(
-        future: fetchUser(),
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            print(snapshot.error);
-            return const Center(
-              child: Text(
-                'Something went wrong!',
-                style: TextStyle(fontSize: 20),
-              ),
-            );
-          } else if (snapshot.hasData) {
-            print(snapshot.data);
-            return UserList(user: snapshot.data!);
-          } else {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        },
+        body: FutureBuilder(
+      future: fetchUser(),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          print(snapshot.error);
+          return const Center(
+            child: Text(
+              'Something went wrong!',
+              style: TextStyle(fontSize: 20),
+            ),
+          );
+        } else if (snapshot.hasData) {
+          print(snapshot.data);
+          return UserList(user: snapshot.data!, title: widget.title);
+        } else {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+      },
     ));
   }
 }
 
 class UserList extends StatelessWidget {
-  const UserList({Key? key, required this.user}) : super(key: key);
+  const UserList({Key? key, required this.user, required this.title}) : super(key: key);
 
   final user;
+  final String title;
 
   @override
   Widget build(BuildContext context) {
-        return ListTile(
-          title: Text(user["name"]),
-          subtitle: Text(user["username"]),
-          leading: const CircleAvatar(
-            backgroundImage: NetworkImage(
-                'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg'),
+    return MaterialApp(
+      home: DefaultTabController(
+        length: 3,
+        child: Scaffold(
+          appBar: AppBar(
+           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+          title: Text(title),
+            bottom: const TabBar(
+              tabs: [
+                Tab(icon: Icon(Icons.directions_car)),
+                Tab(icon: Icon(Icons.directions_transit)),
+                Tab(icon: Icon(Icons.person)),
+              ],
+            ),
           ),
-        );
+          body: TabBarView(
+            children: [
+              const Icon(Icons.directions_car),
+              const Icon(Icons.directions_transit),
+              ListTile(
+                title: Text(user["name"]),
+                subtitle: Text(user["username"]),
+                leading: const CircleAvatar(
+                  backgroundImage: NetworkImage(
+                      'https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg'),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
