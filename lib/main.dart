@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
         path: "/home",
       pageBuilder: (context, state) {
         return const MaterialPage(
-          child: MyHomePage(title: "Flutter App"),
+          child: MyHomePage(title: "Expenso"),
       );}
       )
     ]
