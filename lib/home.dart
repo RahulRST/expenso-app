@@ -1,3 +1,4 @@
+import 'package:expenso/add.dart';
 import 'package:expenso/notification.dart';
 import 'package:expenso/profile.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: DefaultTabController(
-        length: 3,
+        length: 4,
         child: Scaffold(
           appBar: AppBar(
             backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -27,6 +28,7 @@ class _MyHomePageState extends State<MyHomePage> {
             bottom: const TabBar(
               tabs: [
                 Tab(icon: Icon(Icons.home)),
+                Tab(icon: Icon(Icons.monetization_on)),
                 Tab(icon: Icon(Icons.notifications)),
                 Tab(icon: Icon(Icons.person)),
               ],
@@ -35,6 +37,7 @@ class _MyHomePageState extends State<MyHomePage> {
           body: const TabBarView(
             children: [
               Icon(Icons.home),
+              MyAddPage(),
               MyNotificationPage(),
               MyProfilePage()
             ],

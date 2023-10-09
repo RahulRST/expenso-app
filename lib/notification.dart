@@ -55,10 +55,8 @@ class _MyNotificationPageState extends State<MyNotificationPage> {
             .showSnackBar(
                 const SnackBar(content: Text("Error Adding Notification")
                 )
-                );
-        }
-
-                );
+              );
+            });
   }
 
   @override
@@ -92,7 +90,11 @@ class _MyNotificationPageState extends State<MyNotificationPage> {
                                       .toString()
                                       .split(" ")[0])
                                 ],
-                              )))));
+                              )
+                            )
+                          )
+                        )
+                      );
                 },
               );
             } else {
