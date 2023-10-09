@@ -102,6 +102,7 @@ class _MyNotificationPageState extends State<MyNotificationPage> {
                     insetPadding: const EdgeInsets.all(15.0),
                     title: const Text("Add Notification"),
                     content: Column(
+                      mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                         TextFormField(
                           decoration: const InputDecoration(
@@ -109,7 +110,8 @@ class _MyNotificationPageState extends State<MyNotificationPage> {
                           ),
                           // controller: message,
                         ),
-                        const SizedBox(height: 10),
+                        const SizedBox(height: 30),
+                        InputDatePickerFormField(firstDate: DateTime.now(), lastDate: DateTime(2099), acceptEmptyDate: false, initialDate: DateTime.now())
                       ],
                     ),
                     actions: [
