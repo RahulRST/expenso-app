@@ -134,11 +134,6 @@ class _MyProfilePageState extends State<MyProfilePage> {
                               contact: snapshot.data["contact"],
                               avatar: Icons.person,
                             ),
-                            const SizedBox(height: 16.0),
-                            ElevatedButton(
-                              onPressed: handleLogout,
-                              child: const Text('Logout'),
-                            ),
                           ]))));
         } else {
           return const Center(
@@ -146,6 +141,8 @@ class _MyProfilePageState extends State<MyProfilePage> {
           );
         }
       },
-    ));
+    ),
+    floatingActionButton: FloatingActionButton(onPressed: handleLogout, child: const Icon(Icons.logout)),
+    );
   }
 }
