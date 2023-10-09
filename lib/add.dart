@@ -15,14 +15,13 @@ class MyAddPage extends StatefulWidget {
 
 class _MyAddPageState extends State<MyAddPage> {
   @override
-  Widget build (BuildContext context) {
+  Widget build(BuildContext context) {
     return const Scaffold(
-      body: SingleChildScrollView(child: Column(
-        children: <Widget> [
-          AddIncome(),
-          AddExpense(),
-        ]
-      )),
+      body: SingleChildScrollView(
+          child: Column(children: <Widget>[
+        AddIncome(),
+        AddExpense(),
+      ])),
     );
   }
 }
@@ -38,9 +37,9 @@ class _AddIncomeState extends State<AddIncome> {
   final amount = TextEditingController();
   final category = TextEditingController();
   final description = TextEditingController();
-  final date = TextEditingController();
+  late DateTime date;
 
-  void handleIncome () async {
+  void handleIncome() async {
     await http
         .post(Uri.parse("http://localhost:5500/api/track/addincome"),
             headers: {
@@ -51,47 +50,72 @@ class _AddIncomeState extends State<AddIncome> {
               'amount': amount.text,
               'category': category.text,
               'description': description.text,
-              'date': date.text
+              'date': date
             }))
         .then((value) => ScaffoldMessenger.of(context)
             .showSnackBar(const SnackBar(content: Text("Income added"))))
         .onError((error, stackTrace) {
-          return ScaffoldMessenger.of(context)
-            .showSnackBar(
-                const SnackBar(content: Text("Error Adding Income")
-                )
-              );
-            });
+      return ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text("Error Adding Income")));
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      TextFormField(
-        controller: amount,
-        decoration: const InputDecoration(
-          labelText: 'Amount',
-        ),
-      ),
-      TextFormField(
-        controller: category,
-        decoration: const InputDecoration(
-          labelText: 'Category',
-        ),
-      ),
-      TextFormField(
-        controller: description,
-        decoration: const InputDecoration(
-          labelText: 'Description',
-        ),
-      ),
-      TextFormField(
-        controller: date,
-        decoration: const InputDecoration(
-          labelText: 'Date',
-        ),
-      ),
-      ElevatedButton(onPressed: handleIncome, child: const Text("Add Income"))
+    return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+      const Padding(
+          padding: EdgeInsets.all(20.0),
+          child: Text(
+            "Add Income",
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          )),
+      Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+        SizedBox(
+            width: 150,
+            child: TextFormField(
+              controller: amount,
+              decoration: const InputDecoration(
+                labelText: 'Amount',
+              ),
+            )),
+        const SizedBox(width: 30),
+        SizedBox(
+            width: 150,
+            child: TextFormField(
+              controller: category,
+              decoration: const InputDecoration(
+                labelText: 'Category',
+              ),
+            ))
+      ]),
+      const SizedBox(height: 30),
+      Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+        SizedBox(
+            width: 150,
+            child: TextFormField(
+              controller: description,
+              decoration: const InputDecoration(
+                labelText: 'Description',
+              ),
+            )),
+        const SizedBox(width: 30),
+        SizedBox(
+            width: 150,
+            child: InputDatePickerFormField(
+                firstDate: DateTime.now(),
+                lastDate: DateTime(2099),
+                acceptEmptyDate: false,
+                initialDate: DateTime.now(),
+                onDateSaved: (date) {
+                  setState(() {
+                    this.date = date;
+                  });
+                },
+                )
+              ),
+      ]),
+      const SizedBox(height: 30),
+      ElevatedButton(onPressed: handleIncome, child: const Text("Add"))
     ]);
   }
 }
@@ -107,9 +131,8 @@ class _AddExpenseState extends State<AddExpense> {
   final amount = TextEditingController();
   final category = TextEditingController();
   final description = TextEditingController();
-  final date = TextEditingController();
-
-    void handleExpense () async {
+  late DateTime date;
+  void handleExpense() async {
     await http
         .post(Uri.parse("http://localhost:5500/api/track/addexpense"),
             headers: {
@@ -120,47 +143,72 @@ class _AddExpenseState extends State<AddExpense> {
               'amount': amount.text,
               'category': category.text,
               'description': description.text,
-              'date': date.text
+              'date': date
             }))
         .then((value) => ScaffoldMessenger.of(context)
             .showSnackBar(const SnackBar(content: Text("Expense added"))))
         .onError((error, stackTrace) {
-          return ScaffoldMessenger.of(context)
-            .showSnackBar(
-                const SnackBar(content: Text("Error Adding Expense")
-                )
-              );
-            });
+      return ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text("Error Adding Expense")));
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      TextFormField(
-        controller: amount,
-        decoration: const InputDecoration(
-          labelText: 'Amount',
-        ),
-      ),
-      TextFormField(
-        controller: category,
-        decoration: const InputDecoration(
-          labelText: 'Category',
-        ),
-      ),
-      TextFormField(
-        controller: description,
-        decoration: const InputDecoration(
-          labelText: 'Description',
-        ),
-      ),
-      TextFormField(
-        controller: date,
-        decoration: const InputDecoration(
-          labelText: 'Date',
-        ),
-      ),
-      ElevatedButton(onPressed: handleExpense, child: const Text("Add Expense"))
+    return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+      const Padding(
+          padding: EdgeInsets.all(20.0),
+          child: Text(
+            "Add Expense",
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          )),
+      Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+        SizedBox(
+            width: 150,
+            child: TextFormField(
+              controller: amount,
+              decoration: const InputDecoration(
+                labelText: 'Amount',
+              ),
+            )),
+        const SizedBox(width: 30),
+        SizedBox(
+            width: 150,
+            child: TextFormField(
+              controller: category,
+              decoration: const InputDecoration(
+                labelText: 'Category',
+              ),
+            ))
+      ]),
+      const SizedBox(height: 30),
+      Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+        SizedBox(
+            width: 150,
+            child: TextFormField(
+              controller: description,
+              decoration: const InputDecoration(
+                labelText: 'Description',
+              ),
+            )),
+        const SizedBox(width: 30),
+        SizedBox(
+            width: 150,
+            child: InputDatePickerFormField(
+                firstDate: DateTime.now(),
+                lastDate: DateTime(2099),
+                acceptEmptyDate: false,
+                initialDate: DateTime.now(),
+                onDateSaved: (date) {
+                  setState(() {
+                    this.date = date;
+                  });
+                },
+                )
+              ),
+      ]),
+      const SizedBox(height: 30),
+      ElevatedButton(onPressed: handleExpense, child: const Text("Add"))
     ]);
   }
 }

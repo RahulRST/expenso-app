@@ -36,6 +36,7 @@ class MyNotificationPage extends StatefulWidget {
 
 class _MyNotificationPageState extends State<MyNotificationPage> {
   final message = TextEditingController();
+  late DateTime date;
 
   void handleAddNotification() async {
     await http
@@ -44,19 +45,14 @@ class _MyNotificationPageState extends State<MyNotificationPage> {
               'Content-Type': 'application/json; charset=UTF-8',
               'Authorization': 'Bearer ${storage.getItem('token')}'
             },
-            body: jsonEncode({
-              'message': message.text,
-              'date': DateTime.now().toString()
-            }))
+            body:
+                jsonEncode({'message': message.text, 'date': date.toString()}))
         .then((value) => ScaffoldMessenger.of(context)
             .showSnackBar(const SnackBar(content: Text("Notification added"))))
         .onError((error, stackTrace) {
-          return ScaffoldMessenger.of(context)
-            .showSnackBar(
-                const SnackBar(content: Text("Error Adding Notification")
-                )
-              );
-            });
+      return ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Error Adding Notification")));
+    });
   }
 
   @override
@@ -90,11 +86,7 @@ class _MyNotificationPageState extends State<MyNotificationPage> {
                                       .toString()
                                       .split(" ")[0])
                                 ],
-                              )
-                            )
-                          )
-                        )
-                      );
+                              )))));
                 },
               );
             } else {
@@ -132,10 +124,14 @@ class _MyNotificationPageState extends State<MyNotificationPage> {
                         ),
                         const SizedBox(height: 30),
                         InputDatePickerFormField(
-                            firstDate: DateTime.now(),
-                            lastDate: DateTime(2099),
-                            acceptEmptyDate: false,
-                            initialDate: DateTime.now())
+                          firstDate: DateTime.now(),
+                          lastDate: DateTime(2099),
+                          acceptEmptyDate: false,
+                          initialDate: DateTime.now(),
+                          onDateSubmitted: (date) {
+                            this.date = date;
+                          },
+                        ),
                       ],
                     ),
                     actions: [
