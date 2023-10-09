@@ -51,7 +51,6 @@ class _MyNotificationPageState extends State<MyNotificationPage> {
         .then((value) => ScaffoldMessenger.of(context)
             .showSnackBar(const SnackBar(content: Text("Notification added"))))
         .onError((error, stackTrace) {
-          print(error);
           return ScaffoldMessenger.of(context)
             .showSnackBar(
                 const SnackBar(content: Text("Error Adding Notification")
