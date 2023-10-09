@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
-import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 
 final storage = LocalStorage("secure_storage");
@@ -36,19 +35,33 @@ class MyNotificationPage extends StatefulWidget {
 }
 
 class _MyNotificationPageState extends State<MyNotificationPage> {
+  final message = TextEditingController();
 
   void handleAddNotification() async {
-    // await http.post(Uri.parse("http://localhost:5500/api/add/notification"),
-    //     headers: <String, String>{
-    //       'Content-Type': 'application/json; charset=UTF-8',
-    //       'Authorization': 'Bearer ${storage.getItem('token')}'
-    //     },
-    //     body: jsonEncode(<String, String>{
-    //       'message': "Hello World",
-    //     }));
-    print('added');
-    context.go("/home");
+    await http
+        .post(Uri.parse("http://localhost:5500/api/track/addnotification"),
+            headers: {
+              'Content-Type': 'application/json; charset=UTF-8',
+              'Authorization': 'Bearer ${storage.getItem('token')}'
+            },
+            body: jsonEncode({
+              'message': message.text,
+              'date': DateTime.now().toString()
+            }))
+        .then((value) => ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text("Notification added"))))
+        .onError((error, stackTrace) {
+          print(error);
+          return ScaffoldMessenger.of(context)
+            .showSnackBar(
+                const SnackBar(content: Text("Error Adding Notification")
+                )
+                );
+        }
+
+                );
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -108,10 +121,20 @@ class _MyNotificationPageState extends State<MyNotificationPage> {
                           decoration: const InputDecoration(
                             hintText: "Message",
                           ),
-                          // controller: message,
+                          controller: message,
+                          validator: (String? value) {
+                            if (value == null || value.isEmpty) {
+                              return "Please enter a message";
+                            }
+                            return null;
+                          },
                         ),
                         const SizedBox(height: 30),
-                        InputDatePickerFormField(firstDate: DateTime.now(), lastDate: DateTime(2099), acceptEmptyDate: false, initialDate: DateTime.now())
+                        InputDatePickerFormField(
+                            firstDate: DateTime.now(),
+                            lastDate: DateTime(2099),
+                            acceptEmptyDate: false,
+                            initialDate: DateTime.now())
                       ],
                     ),
                     actions: [
