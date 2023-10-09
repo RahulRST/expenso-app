@@ -1,3 +1,4 @@
+import 'package:expenso/notification.dart';
 import 'package:expenso/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
@@ -34,7 +35,7 @@ class _MyHomePageState extends State<MyHomePage> {
           body: const TabBarView(
             children: [
               Icon(Icons.home),
-              Icon(Icons.notifications),
+              MyNotificationPage(),
               MyProfilePage()
             ],
           ),

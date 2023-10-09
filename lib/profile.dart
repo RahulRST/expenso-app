@@ -37,7 +37,7 @@ class ProfileCard extends StatelessWidget {
   final String contact;
   final IconData avatar;
 
-  const ProfileCard({
+  const ProfileCard({super.key, 
     required this.name,
     required this.username,
     required this.address,
