@@ -1,4 +1,5 @@
 import 'package:expenso/add.dart';
+import 'package:expenso/charts.dart';
 import 'package:expenso/notification.dart';
 import 'package:expenso/profile.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +37,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           body: const TabBarView(
             children: [
-              Icon(Icons.home),
+              MyChartPage(),
               MyAddPage(),
               MyNotificationPage(),
               MyProfilePage()

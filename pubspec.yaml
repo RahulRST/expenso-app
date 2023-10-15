@@ -12,6 +12,7 @@ dependencies:
   go_router: ^11.1.2
   http: ^1.1.0
   localstorage: ^4.0.1+4
+  syncfusion_flutter_charts: ^23.1.40
 
 dev_dependencies:
   flutter_test:

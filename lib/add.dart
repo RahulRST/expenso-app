@@ -36,7 +36,7 @@ class AddIncome extends StatefulWidget {
 
 class _AddIncomeState extends State<AddIncome> {
   final amount = TextEditingController();
-  final category = TextEditingController();
+  final source = TextEditingController();
   final description = TextEditingController();
   late DateTime date;
 
@@ -49,7 +49,7 @@ class _AddIncomeState extends State<AddIncome> {
             },
             body: jsonEncode({
               'amount': amount.text,
-              'category': category.text,
+              'source': source.text,
               'description': description.text,
               'date': date.toString()
             }))
@@ -83,9 +83,9 @@ class _AddIncomeState extends State<AddIncome> {
         SizedBox(
             width: 300,
             child: TextFormField(
-              controller: category,
+              controller: source,
               decoration: const InputDecoration(
-                labelText: 'Category',
+                labelText: 'Source',
               ),
             ))
       ]),
