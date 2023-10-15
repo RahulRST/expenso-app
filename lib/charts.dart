@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:http/http.dart' as http;
-import 'package:syncfusion_flutter_charts/sparkcharts.dart';
 
 final storage = LocalStorage("secure_storage");
 
@@ -72,10 +71,6 @@ class _MyChartPageState extends State<MyChartPage> {
       loading = true;
     });
     super.initState();
-    // _chartData = <ChartData>[
-    //   ChartData('Income', 10000, const Color.fromRGBO(0, 255, 0, 1)),
-    //   ChartData('Expense', 5000, const Color.fromRGBO(255, 0, 0, 1)),
-    // ];
     fetchData();
   }
 
