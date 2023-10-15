@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:http/http.dart' as http;
 
@@ -123,15 +124,19 @@ class _MyNotificationPageState extends State<MyNotificationPage> {
                           },
                         ),
                         const SizedBox(height: 30),
-                        InputDatePickerFormField(
-                          firstDate: DateTime.now(),
-                          lastDate: DateTime(2099),
-                          acceptEmptyDate: false,
-                          initialDate: DateTime.now(),
-                          onDateSubmitted: (date) {
-                            this.date = date;
-                          },
-                        ),
+                        SizedBox(
+                            height: 300,
+                            width: 400,
+                            child: CupertinoDatePicker(
+                                mode: CupertinoDatePickerMode.date,
+                                minimumDate: DateTime.now(),
+                                maximumDate: DateTime(2099),
+                                initialDateTime: DateTime.now(),
+                                onDateTimeChanged: (DateTime date) {
+                                  setState(() {
+                                    this.date = date;
+                                  });
+                                }))
                       ],
                     ),
                     actions: [
