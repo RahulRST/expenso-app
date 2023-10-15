@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:http/http.dart' as http;
 
@@ -50,7 +51,7 @@ class _AddIncomeState extends State<AddIncome> {
               'amount': amount.text,
               'category': category.text,
               'description': description.text,
-              'date': date
+              'date': date.toString()
             }))
         .then((value) => ScaffoldMessenger.of(context)
             .showSnackBar(const SnackBar(content: Text("Income added"))))
@@ -80,7 +81,7 @@ class _AddIncomeState extends State<AddIncome> {
             )),
         const SizedBox(width: 30),
         SizedBox(
-            width: 150,
+            width: 300,
             child: TextFormField(
               controller: category,
               decoration: const InputDecoration(
@@ -100,19 +101,18 @@ class _AddIncomeState extends State<AddIncome> {
             )),
         const SizedBox(width: 30),
         SizedBox(
-            width: 150,
-            child: InputDatePickerFormField(
-                firstDate: DateTime.now(),
-                lastDate: DateTime(2099),
-                acceptEmptyDate: false,
-                initialDate: DateTime.now(),
-                onDateSaved: (date) {
+            height: 150,
+            width: 300,
+            child: CupertinoDatePicker(
+                mode: CupertinoDatePickerMode.date,
+                minimumDate: DateTime(2000),
+                maximumDate: DateTime(2099),
+                initialDateTime: DateTime(2000),
+                onDateTimeChanged: (DateTime date) {
                   setState(() {
                     this.date = date;
                   });
-                },
-                )
-              ),
+                })),
       ]),
       const SizedBox(height: 30),
       ElevatedButton(onPressed: handleIncome, child: const Text("Add"))
@@ -143,7 +143,7 @@ class _AddExpenseState extends State<AddExpense> {
               'amount': amount.text,
               'category': category.text,
               'description': description.text,
-              'date': date
+              'date': date.toString()
             }))
         .then((value) => ScaffoldMessenger.of(context)
             .showSnackBar(const SnackBar(content: Text("Expense added"))))
@@ -173,7 +173,7 @@ class _AddExpenseState extends State<AddExpense> {
             )),
         const SizedBox(width: 30),
         SizedBox(
-            width: 150,
+            width: 300,
             child: TextFormField(
               controller: category,
               decoration: const InputDecoration(
@@ -193,19 +193,18 @@ class _AddExpenseState extends State<AddExpense> {
             )),
         const SizedBox(width: 30),
         SizedBox(
-            width: 150,
-            child: InputDatePickerFormField(
-                firstDate: DateTime.now(),
-                lastDate: DateTime(2099),
-                acceptEmptyDate: false,
-                initialDate: DateTime.now(),
-                onDateSaved: (date) {
+            height: 150,
+            width: 300,
+            child: CupertinoDatePicker(
+                mode: CupertinoDatePickerMode.date,
+                minimumDate: DateTime(2000),
+                maximumDate: DateTime(2099),
+                initialDateTime: DateTime(2000),
+                onDateTimeChanged: (DateTime date) {
                   setState(() {
                     this.date = date;
                   });
-                },
-                )
-              ),
+                })),
       ]),
       const SizedBox(height: 30),
       ElevatedButton(onPressed: handleExpense, child: const Text("Add"))
